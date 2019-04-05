@@ -5,7 +5,7 @@ jmp main
 
 
 ;SUGESTÃO: FAZER 2 RANDS: 1 PARA CADA CACTO
-rand : 	var #50
+rand : 	var #23
 		static rand + #0, #0
 		static rand + #1, #1
 		static rand + #2, #1
@@ -42,29 +42,18 @@ main:
 	
 	breakp
 	
+	;Argumento r0 -> posição central do dinossemblezinho
+	;call imprimeDino
+	
+	;call delay
+	
+	;Argumento r0 -> posição central do dinossemblezinho
+	;call apagaDino
+	
 	loadn r0, #646
-	
-	;Argumento r0 -> posição central do dinossemblezinho
 	call imprimeDino
-	
-	call delay
-	
-	;Argumento r0 -> posição central do dinossemblezinho
+	call invocaCactos
 	call apagaDino
-	
-	loadn r0, #718
-	call imprimeCacto0
-
-	call delay
-	
-	call apagaCacto0
-	
-	loadn r0, #677
-	call imprimeCacto1
-
-	call delay
-	
-	call apagaCacto1
 	
 	halt
 	
@@ -217,14 +206,15 @@ apagaDino:
 	
 	
 ;*******************************************************************************************************************************************
+;argumentos r0
 delay:
 	push r0
 	push r1
 	
-	loadn r0, #64000
+	;loadn r0, #64000
 	
 	loopi:
-		loadn r1, #100	
+		loadn r1, #10000	
 		loopj:
 			dec r1
 			jnz loopj
@@ -564,6 +554,319 @@ apagaCacto1:
 ;*******************************************************************************************************************************************
 
 
+;*******************************************************************************************************************************************
+;Argumento r0 possui a posição do dino 
+;Retorna em r7 1 se houve contato ou 0 caso contrário
+loopCacto0:
+	
+	push r0 ; posição do dino
+	push r1 ; posição do cacto
+	push r2 ; variavel auxiliar
+	push r3 ; variável auxiliar == 1
+	
+	loadn r7, #0
+	
+	loadn r1, #719; carrega pos_ini do cacto + 1
+	loadn r2, #681
+	loadn r3, #1
+	
+	
+	loopIC0:
+	
+		push r0
+		mov r0, r1
+		call apagaCacto0
+		pop r0
+		
+		dec r1
+		
+		;cmp r1, r0 ;CONTATO
+		call confereContatoCacto0 ;retorna 1 ou 0 no r7
+		cmp r7, r3 ;compara o retorno com 1
+		jeq fim_loopIC0
+		
+		push r0
+		
+		mov r0, r1
+		call imprimeCacto0
+		
+		loadn r0, #100
+		call delay
+		
+		pop r0
+		
+		cmp r1, r2
+		jne loopIC0
+		
+	fim_loopIC0:
+		
+		mov r0, r1
+		call apagaCacto0
+	
+		pop r2	
+		pop r1	
+		pop r0
+		
+		rts
+;*******************************************************************************************************************************************
+
+
+;*******************************************************************************************************************************************
+;Argumento r0 possui a posição do dino 
+;Retorna em r7 1 se houve contato ou 0 caso contrário
+loopCacto1:
+	
+	push r0 ; posição do dino
+	push r1 ; posição do cacto
+	push r2 ; variavel auxiliar
+	
+	loadn r7, #0
+	
+	loadn r1, #678; carrega pos_ini do cacto + 1
+	loadn r2, #641
+	
+	loopIC1:
+	
+		push r0
+		mov r0, r1
+		call apagaCacto1
+		pop r0
+		
+		dec r1
+		
+		;cmp r1, r0 ;CONTATO
+		call confereContatoCacto1 ;retorna 1 ou 0 no r7
+		cmp r7, r3 ;compara o retorno com 1
+		jeq fim_loopIC1
+		
+		push r0
+		
+		mov r0, r1
+		call imprimeCacto1
+		
+		loadn r0, #100
+		call delay
+		
+		pop r0
+		
+		cmp r1, r2
+		jne loopIC1
+		
+	fim_loopIC1:
+		
+		mov r0, r1
+		call apagaCacto1
+		
+		pop r2	
+		pop r1	
+		pop r0
+		
+		rts
+;*******************************************************************************************************************************************
+
+
+;*******************************************************************************************************************************************
+; Argumento r0 tem a posicao do dinossauro
+invocaCactos:
+	
+	push r0
+	push r1
+	push r2
+	push r3
+	push r4
+	
+	loadn r1, #1
+	
+	loopRand: ;SORTEIO 1 DOS CACTOS
+		loadn r2, #rand ; declara ponteiro para tabela rand na memoria!
+		loadn r4, #22
+		
+		loopEscolhe:
+			loadi r3, r2 ; busca nr. randomico da memoria
+			inc r2
+			
+			cmp r3, r1
+			jne opcao0
+			jeq opcao1
+			
+			opcao0:
+				call loopCacto0 ;retorna em r7 o contato
+				cmp r7, r1
+				jeq fim_loopRand
+				jmp fim_loopEscolhe
+				
+			opcao1:
+				call loopCacto1 ;retorna em r7 o contato
+				cmp r7, r1
+				jeq fim_loopRand
+				
+			fim_loopEscolhe:	
+				dec r4
+				jz loopRand
+				jnz loopEscolhe
+		
+		fim_loopRand:		
+	
+	pop r4		
+	pop r3
+	pop r2	
+	pop r1
+	pop r0
+	rts
+	
+;*******************************************************************************************************************************************
+
+
+;*******************************************************************************************************************************************
+; Argumento r0 tem a posição central do dino
+; Argumento r1 tem uma posicao específica do cacto
+; Retorna em r7 se há um contato ou não
+colisaoDino:
+	
+	push r0
+	push r1
+	push r2
+	
+	loadn r7, #0
+	
+	inc r0
+	cmp r0, r1
+	jeq retornaColisao1
+	
+	loadn r2, #39
+	sub r0, r0, r2
+	cmp r0, r1
+	jeq retornaColisao1
+	
+	loadn r2, #76
+	add r0, r0, r2
+	cmp r0, r1
+	jeq retornaColisao1
+	
+	loadn r2, #3
+	add r0, r0, r2
+	cmp r0, r1
+	jeq retornaColisao1
+	
+	loadn r2, #38
+	add r0, r0, r2
+	cmp r0, r1
+	jeq retornaColisao1
+	
+	inc r0
+	cmp r0, r1
+	jeq retornaColisao1
+		
+	jmp retorna
+	
+	retornaColisao1:
+		loadn r7, #1
+		
+	retorna:
+		pop r4		
+		pop r3
+		pop r2
+		rts
+		
+;*******************************************************************************************************************************************
+
+
+
+;*******************************************************************************************************************************************
+; Argumento r0 tem a posicao central do dinossauro
+; Argumento r1 tem a posição central do cacto
+; Retorna 1 ou 0 no r7 indicando se houve ou não o contato
+confereContatoCacto0:
+	
+	push r0
+	push r1
+	push r2
+	push r3
+	
+	loadn r3, #1
+	
+	loadn r2, #41
+	sub r1, r1, r2
+	call colisaoDino
+	cmp r7, r3
+	jeq fim_confereContato0
+	
+	inc r1
+	call colisaoDino
+	cmp r7, r3
+	jeq fim_confereContato0
+	
+	inc r1
+	call colisaoDino
+	cmp r7, r3
+	jeq fim_confereContato0
+	
+	loadn r2, #38
+	add r1, r1, r2
+	call colisaoDino
+	cmp r7, r3
+	jeq fim_confereContato0	
+		
+	fim_confereContato0:	
+		pop r3
+		pop r2	
+		pop r1
+		pop r0
+		rts
+	
+;*******************************************************************************************************************************************
+
+
+;*******************************************************************************************************************************************
+; Argumento r0 tem a posicao central do dinossauro
+; Argumento r1 tem a posição central do cacto
+; Retorna 1 ou 0 no r7 indicando se houve ou não o contato
+confereContatoCacto1:
+	
+	push r0
+	push r1
+	push r2
+	push r3
+	
+	loadn r3, #1
+	
+	loadn r2, #41
+	sub r1, r1, r2
+	call colisaoDino
+	cmp r7, r3
+	jeq fim_confereContato1
+	
+	inc r1
+	call colisaoDino
+	cmp r7, r3
+	jeq fim_confereContato1
+	
+	inc r1
+	call colisaoDino
+	cmp r7, r3
+	jeq fim_confereContato1
+	
+	loadn r2, #38
+	add r1, r1, r2
+	call colisaoDino
+	cmp r7, r3
+	jeq fim_confereContato1	
+	
+	loadn r2, #3
+	add r1, r1, r2
+	call colisaoDino
+	cmp r7, r3
+	jeq fim_confereContato1
+		
+	fim_confereContato1:
+		pop r3
+		pop r2	
+		pop r1
+		pop r0
+		rts
+	
+;*******************************************************************************************************************************************
+
 
 ;---------------------------------------------------------------
 ; Tela de inicio:
@@ -588,7 +891,7 @@ tela0Linha15 : string "                                        "
 tela0Linha16 : string "                                        "
 tela0Linha17 : string "                                        "
 tela0Linha18 : string "                                        "
-tela0Linha19 : string "----------------------------------------"
+tela0Linha19 : string "________________________________________"
 tela0Linha20 : string "                                        "
 tela0Linha21 : string "                                        "
 tela0Linha22 : string "                                        "
