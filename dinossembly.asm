@@ -52,6 +52,19 @@ main:
 	;Argumento r0 -> posição central do dinossemblezinho
 	call apagaDino
 	
+	loadn r0, #718
+	call imprimeCacto0
+
+	call delay
+	
+	call apagaCacto0
+	
+	loadn r0, #677
+	call imprimeCacto1
+
+	call delay
+	
+	call apagaCacto1
 	
 	halt
 	
@@ -150,7 +163,7 @@ apagaDino:
 	
 	loadn r2, #' '
 	
-	outchar r1, r0
+	outchar r2, r0
 	
 	inc r0
 	outchar r2, r0
@@ -211,7 +224,7 @@ delay:
 	loadn r0, #64000
 	
 	loopi:
-		loadn r1, #2000	
+		loadn r1, #100	
 		loopj:
 			dec r1
 			jnz loopj
@@ -308,7 +321,247 @@ ImprimeStr:	;  Rotina de Impresao de Mensagens:    r0 = Posicao da tela que o pr
 ;*******************************************************************************************************************************************		
 
 
+;*******************************************************************************************************************************************
+;Procedimento para imprimir o cacto do tipo 0
+;Argumento r0 -> posição central do cacto
+;A	
+imprimeCacto0:
+	
+	push r0 ;posição
+	push r1 ; variavel auxiliar
+	push r2 ; variável auxiliar para carregar os chars do charmap.mif
+	
+	;0  1  2  
+	;3  4  5
+	;6  7  8
+	
+	loadn r1, #41
+	sub r0, r0, r1
+	loadn r2, #'@'
+	outchar r2, r0
+	
+	
+	inc r0
+	loadn r2, #'$'
+	outchar r2, r0
+	
+	inc r0
+	loadn r2, #'.'
+	outchar r2, r0
+	
+	loadn r1, #38
+	add r0, r0, r1
+	loadn r2, #';'
+	outchar r2, r0
+	
+	inc r0
+	loadn r2, #'$'
+	outchar r2, r0
+	
+	inc r0
+	loadn r2, #'<'
+	outchar r2, r0
+	
+	loadn r1, #39
+	add r0, r0, r1
+	loadn r2, #'$'
+	outchar r2, r0
+	
+	pop r2
+	pop r1
+	pop r0
+	
+	rts
+;*******************************************************************************************************************************************
 
+
+
+;*******************************************************************************************************************************************
+;Procedimento para imprimir o cacto do tipo 0
+;Argumento r0 -> posição central do cacto
+;A	
+apagaCacto0:
+	
+	push r0 ;posição
+	push r1 ; variavel auxiliar
+	push r2 ; variável auxiliar para carregar o char vazio
+	
+	;0  1  2  
+	;3  4  5
+	;6  7  8
+	
+	loadn r2, #' '
+	
+	loadn r1, #41
+	sub r0, r0, r1
+	outchar r2, r0
+	
+	
+	inc r0
+	outchar r2, r0
+	
+	inc r0
+	outchar r2, r0
+	
+	loadn r1, #38
+	add r0, r0, r1
+	outchar r2, r0
+	
+	inc r0
+	outchar r2, r0
+	
+	inc r0
+	outchar r2, r0
+	
+	loadn r1, #39
+	add r0, r0, r1
+	outchar r2, r0
+	
+	pop r2
+	pop r1
+	pop r0
+	
+	rts
+;*******************************************************************************************************************************************
+
+
+;*******************************************************************************************************************************************
+;Procedimento para imprimir o cacto do tipo 1
+;Argumento r0 -> posição central do cacto
+imprimeCacto1:
+	
+	push r0 ;posição
+	push r1 ; variavel auxiliar
+	push r2 ; variável auxiliar para carregar os chars do charmap.mif
+	
+	;0  1  2  
+	;3  4  5
+	;6  7  8
+	
+	loadn r1, #41
+	sub r0, r0, r1
+	loadn r2, #'@'
+	outchar r2, r0
+	
+	
+	inc r0
+	loadn r2, #'$'
+	outchar r2, r0
+	
+	inc r0
+	loadn r2, #'$'
+	outchar r2, r0
+	
+	
+	loadn r1, #38
+	add r0, r0, r1
+	loadn r2, #';'
+	outchar r2, r0
+	
+	inc r0
+	loadn r2, #'$'
+	outchar r2, r0
+	
+	inc r0
+	loadn r2, #'$'
+	outchar r2, r0
+	
+	inc r0
+	loadn r2, #'.'
+	outchar r2, r0
+	
+	loadn r1, #38
+	add r0, r0, r1
+	loadn r2, #'$'
+	outchar r2, r0
+	
+	inc r0
+	loadn r2, #'$'
+	outchar r2, r0
+	
+	inc r0
+	loadn r2, #'<'
+	outchar r2, r0
+	
+	loadn r1, #38
+	add r0, r0, r1
+	loadn r2, #'$'
+	outchar r2, r0
+	
+	inc r0
+	loadn r2, #'$'
+	outchar r2, r0
+	
+	pop r2
+	pop r1
+	pop r0
+	
+	rts
+;*******************************************************************************************************************************************
+
+
+
+;*******************************************************************************************************************************************
+apagaCacto1:
+	
+	push r0 ;posição
+	push r1 ; variavel auxiliar
+	push r2 ; variável auxiliar para carregar os chars do charmap.mif
+	
+	;0  1  2  
+	;3  4  5
+	;6  7  8
+	
+	loadn r2, #' '
+	
+	loadn r1, #41
+	sub r0, r0, r1
+	outchar r2, r0
+	
+	
+	inc r0
+	outchar r2, r0
+	
+	inc r0
+	outchar r2, r0
+	
+	
+	loadn r1, #38
+	add r0, r0, r1
+	outchar r2, r0
+	
+	inc r0
+	outchar r2, r0
+	
+	inc r0
+	outchar r2, r0
+	
+	inc r0
+	outchar r2, r0
+	
+	loadn r1, #38
+	add r0, r0, r1
+	outchar r2, r0
+	
+	inc r0
+	outchar r2, r0
+	
+	inc r0
+	outchar r2, r0
+	
+	loadn r1, #38
+	add r0, r0, r1
+	outchar r2, r0
+	
+	inc r0
+	outchar r2, r0
+	
+	pop r2
+	pop r1
+	pop r0
+	
+	rts
+;*******************************************************************************************************************************************
 
 
 
