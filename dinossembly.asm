@@ -40,6 +40,8 @@ main:
 	loadn r2, #0                ;cor branca
 	call ImprimeTela
 	
+	breakp
+	
 	loadn r0, #646
 	
 	;Argumento r0 -> posição central do dinossemblezinho
@@ -88,7 +90,7 @@ imprimeDino:
 	loadn r2, #'+'
 	outchar r2, r0
 	
-	loadn r1, #39
+	loadn r1, #41
 	sub r0, r0, r1
 	loadn r2, #'('
 	outchar r2, r0
@@ -143,56 +145,58 @@ imprimeDino:
 apagaDino:
 	
 	push r0
-	push r1 ; variavel com o espaço em branco
+	push r1 
+	push r2 ; variavel com o espaço em branco
 	
-	loadn r1, #' '
+	loadn r2, #' '
 	
 	outchar r1, r0
 	
 	inc r0
-	outchar r1, r0
+	outchar r2, r0
 	
 	loadn r1, #40
 	sub r0, r0, r1
-	outchar r1, r0
+	outchar r2, r0
 	
 	inc r0
-	outchar r1, r0
+	outchar r2, r0
 	
-	loadn r1, #39
+	loadn r1, #41
 	sub r0, r0, r1
-	outchar r1, r0
+	outchar r2, r0
 	
 	inc r0
-	outchar r1, r0
+	outchar r2, r0
 	
 	loadn r1, #76
 	add r0, r0, r1
-	outchar r1, r0
+	outchar r2, r0
 	
 	inc r0
-	outchar r1, r0
+	outchar r2, r0
 	
 	loadn r1, #39
 	add r0, r0, r1
-	outchar r1, r0
+	outchar r2, r0
 	
 	inc r0
-	outchar r1, r0
+	outchar r2, r0
 	
 	inc r0
-	outchar r1, r0
+	outchar r2, r0
 	
 	inc r0
-	outchar r1, r0
+	outchar r2, r0
 	
 	loadn r1, #38
 	add r0, r0, r1
-	outchar r1, r0
+	outchar r2, r0
 	
 	inc r0
-	outchar r1, r0
+	outchar r2, r0
 	
+	pop r2
 	pop r1
 	pop r0
 	rts
@@ -207,7 +211,7 @@ delay:
 	loadn r0, #64000
 	
 	loopi:
-		loadn r1, #64000	
+		loadn r1, #2000	
 		loopj:
 			dec r1
 			jnz loopj
