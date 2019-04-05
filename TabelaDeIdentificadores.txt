@@ -1,0 +1,29 @@
+﻿TABELA DE IDENTIFIÇÃO CHAR - DESENHO:
+
+
+PE_DINO -> '!'
+
+RABO_ACIMA -> '"'
+
+RABO_ABAIXO -> '#'
+
+CORPO_CENTRO -> '$'
+
+CORPO_ESQUERDA -> '%'
+
+CORPO_ESQUERDA_ABAIXO -> '&'
+
+BRACO -> '^'                              (acabei zuando o ''')
+
+CABECA_ESQUERDA_SUPERIOR -> '('
+
+CABECA_DIREITA_SUPERIOR -> ')'
+
+CABECA_ESQUERDA_INFERIOR -> '*'
+
+CABECA_DIREITA_INFERIOR -> '+'
+
+BARRIGA_CENTRO_INFERIOR -> '['
+
+BARRIGA_CENTRO_INFERIOR_ESQUERDO -> ']'
+
