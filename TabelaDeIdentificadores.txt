@@ -39,5 +39,5 @@ CENTRO_ESQUERDA -> ';'
 
 CENTRO_DIREITA ->  '<'
 
-CENTRO_DIREITA ->
+CHÃO -> '_'
 
