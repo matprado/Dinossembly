@@ -27,3 +27,17 @@ BARRIGA_CENTRO_INFERIOR -> '['
 
 BARRIGA_CENTRO_INFERIOR_ESQUERDO -> ']'
 
+---- Cactos ----
+
+SUPERIOR_ESQUERDO -> '@'
+
+Centro/Superior -> '$'
+
+SUPERIOR_DIREITO -> '.'
+
+CENTRO_ESQUERDA -> ';'
+
+CENTRO_DIREITA ->  '<'
+
+CENTRO_DIREITA ->
+
