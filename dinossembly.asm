@@ -39,21 +39,18 @@ main:
 	loadn r1, #tela0Linha0		; Imprime a tela inicial
 	loadn r2, #0                ;cor branca
 	call ImprimeTela
+
 	
-	breakp
-	
-	;Argumento r0 -> posição central do dinossemblezinho
-	;call imprimeDino
-	
-	;call delay
-	
-	;Argumento r0 -> posição central do dinossemblezinho
-	;call apagaDino
 	
 	loadn r0, #646
 	call imprimeDino
 	call invocaCactos
 	call apagaDino
+	
+	call ApagaTela
+	loadn r1, #tela1Linha0		; Imprime a tela inicial
+	loadn r2, #0                ;cor branca
+	call ImprimeTela
 	
 	halt
 	
@@ -590,7 +587,7 @@ loopCacto0:
 		mov r0, r1
 		call imprimeCacto0
 		
-		loadn r0, #100
+		loadn r0, #60
 		call delay
 		
 		pop r0
@@ -603,6 +600,7 @@ loopCacto0:
 		mov r0, r1
 		call apagaCacto0
 	
+		pop r3
 		pop r2	
 		pop r1	
 		pop r0
@@ -763,9 +761,9 @@ colisaoDino:
 		loadn r7, #1
 		
 	retorna:
-		pop r4		
-		pop r3
 		pop r2
+		pop r1
+		pop r0
 		rts
 		
 ;*******************************************************************************************************************************************
@@ -902,3 +900,38 @@ tela0Linha26 : string "                                        "
 tela0Linha27 : string "                                        "
 tela0Linha28 : string "                                        "
 tela0Linha29 : string "                                        "
+
+;---------------------------------------------------------------
+; Tela de game-over:
+;---------------------------------------------------------------
+
+tela1Linha0  : string "                                        "
+tela1Linha1  : string "                                        "
+tela1Linha2  : string "                                        "
+tela1Linha3  : string "                                        "
+tela1Linha4  : string "                                        "
+tela1Linha5  : string "                                        "
+tela1Linha6  : string "                                        "
+tela1Linha7  : string "                                        "
+tela1Linha8  : string "                                        "
+tela1Linha9  : string "________________________________________"                   
+tela1Linha10 : string "                                        "               
+tela1Linha11 : string "                                        "               
+tela1Linha12 : string "                                        "            
+tela1Linha13 : string "                                        "                   
+tela1Linha14 : string "           G A M E - O V E R            "                   
+tela1Linha15 : string "                                        "
+tela1Linha16 : string "                                        "
+tela1Linha17 : string "                                        "
+tela1Linha18 : string "                                        "
+tela1Linha19 : string "________________________________________"
+tela1Linha20 : string "                                        "
+tela1Linha21 : string "                                        "
+tela1Linha22 : string "                                        "
+tela1Linha23 : string "                                        "
+tela1Linha24 : string "                                        "
+tela1Linha25 : string "                                        "
+tela1Linha26 : string "                                        "
+tela1Linha27 : string "                                        "
+tela1Linha28 : string "                                        "
+tela1Linha29 : string "                                        "
