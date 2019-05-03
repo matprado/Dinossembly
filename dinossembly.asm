@@ -7,29 +7,28 @@ jmp main
 ;SUGESTÃO: FAZER 2 RANDS: 1 PARA CADA CACTO
 rand : 	var #23
 		static rand + #0, #0
-		static rand + #1, #1
-		static rand + #2, #1
-		static rand + #3, #1
+		static rand + #1, #0
+		static rand + #2, #0
+		static rand + #3, #0
 		static rand + #4, #0
-		static rand + #5, #1
+		static rand + #5, #0
 		static rand + #6, #0
 		static rand + #7, #0
-		static rand + #8, #1
+		static rand + #8, #0
 		static rand + #9, #0
 		static rand + #10, #0
-		static rand + #11, #1
+		static rand + #11, #0
 		static rand + #12, #0
 		static rand + #13, #0
 		static rand + #14, #0
 		static rand + #15, #0
-		static rand + #16, #1
+		static rand + #16, #0
 		static rand + #17, #0
-		static rand + #18, #1
-		static rand + #19, #1
+		static rand + #18, #0
+		static rand + #19, #0
 		static rand + #20, #0
-		static rand + #21, #1
-		static rand + #22, #0		
-
+		static rand + #21, #0
+		static rand + #22, #0
 
 
 
@@ -326,8 +325,7 @@ imprimeCacto0:
 	sub r0, r0, r1
 	loadn r2, #'@'
 	outchar r2, r0
-	
-	
+		
 	inc r0
 	loadn r2, #'$'
 	outchar r2, r0
@@ -505,13 +503,11 @@ apagaCacto1:
 	sub r0, r0, r1
 	outchar r2, r0
 	
-	
 	inc r0
 	outchar r2, r0
 	
 	inc r0
 	outchar r2, r0
-	
 	
 	loadn r1, #38
 	add r0, r0, r1
@@ -556,16 +552,19 @@ apagaCacto1:
 ;Retorna em r7 1 se houve contato ou 0 caso contrário
 loopCacto0:
 	
-	push r0 ; posição do dino
+	;push r0 ; posição do dino que poderá ser modificada
 	push r1 ; posição do cacto
 	push r2 ; variavel auxiliar
 	push r3 ; variável auxiliar == 1
 	
 	loadn r7, #0
 	
-	loadn r1, #719; carrega pos_ini do cacto + 1
-	loadn r2, #681
+	loadn r1, #719 ;carrega pos_ini do cacto + 1
+	loadn r2, #681 ;
 	loadn r3, #1
+	
+	;Confere se apertou espaço
+	call digLetra
 	
 	
 	loopIC0:
@@ -582,14 +581,21 @@ loopCacto0:
 		cmp r7, r3 ;compara o retorno com 1
 		jeq fim_loopIC0
 		
-		push r0
+		;Confere se apertou espaço
+		call digLetra
 		
+		; ciclo do pulo está no r5
+		call checaPulo ;checa se apertou espaço para pular ou em que ciclo o dino está para atualizar
+		
+		call confereContatoCacto0 ;retorna 1 ou 0 no r7
+		cmp r7, r3 ;compara o retorno com 1
+		jeq fim_loopIC0
+		
+		push r0
 		mov r0, r1
 		call imprimeCacto0
-		
-		loadn r0, #60
+		loadn r0, #40
 		call delay
-		
 		pop r0
 		
 		cmp r1, r2
@@ -597,13 +603,18 @@ loopCacto0:
 		
 	fim_loopIC0:
 		
+		push r0
 		mov r0, r1
 		call apagaCacto0
+		pop r0
+		
+		;Confere se apertou espaço
+		call digLetra
+	
 	
 		pop r3
 		pop r2	
 		pop r1	
-		pop r0
 		
 		rts
 ;*******************************************************************************************************************************************
@@ -614,14 +625,19 @@ loopCacto0:
 ;Retorna em r7 1 se houve contato ou 0 caso contrário
 loopCacto1:
 	
-	push r0 ; posição do dino
+	;push r0 ; posição do dino que poderá ser modificada
 	push r1 ; posição do cacto
 	push r2 ; variavel auxiliar
+	push r3 ; variável auxiliar == 1
 	
 	loadn r7, #0
 	
 	loadn r1, #678; carrega pos_ini do cacto + 1
 	loadn r2, #641
+	
+	;Confere se apertou espaço
+	call digLetra
+	
 	
 	loopIC1:
 	
@@ -637,14 +653,22 @@ loopCacto1:
 		cmp r7, r3 ;compara o retorno com 1
 		jeq fim_loopIC1
 		
+		;Confere se apertou espaço
+		call digLetra
+		
+		; ciclo do pulo está no r5
+		call checaPulo ;checa se apertou espaço para pular ou em que ciclo o dino está para atualizar
+		
+		call confereContatoCacto1 ;retorna 1 ou 0 no r7
+		cmp r7, r3 ;compara o retorno com 1
+		jeq fim_loopIC1
+		
 		push r0
 		
 		mov r0, r1
 		call imprimeCacto1
-		
-		loadn r0, #100
+		loadn r0, #40
 		call delay
-		
 		pop r0
 		
 		cmp r1, r2
@@ -652,12 +676,18 @@ loopCacto1:
 		
 	fim_loopIC1:
 		
+		push r0
 		mov r0, r1
 		call apagaCacto1
+		pop r0
 		
+		;Confere se apertou espaço
+		call digLetra
+	
+		
+		pop r3
 		pop r2	
 		pop r1	
-		pop r0
 		
 		rts
 ;*******************************************************************************************************************************************
@@ -673,13 +703,22 @@ invocaCactos:
 	push r3
 	push r4
 	
+	loadn r5, #0  ;r5 tem o ciclo de pulo do dino que começa com 0
 	loadn r1, #1
 	
 	loopRand: ;SORTEIO 1 DOS CACTOS
+		
+		;Confere se apertou espaço
+		call digLetra
+		
 		loadn r2, #rand ; declara ponteiro para tabela rand na memoria!
 		loadn r4, #22
 		
 		loopEscolhe:
+		
+			;Confere se apertou espaço
+			call digLetra
+		
 			loadi r3, r2 ; busca nr. randomico da memoria
 			inc r2
 			
@@ -688,7 +727,7 @@ invocaCactos:
 			jeq opcao1
 			
 			opcao0:
-				call loopCacto0 ;retorna em r7 o contato
+				call loopCacto0 ;retorna em r7 o contato 
 				cmp r7, r1
 				jeq fim_loopRand
 				jmp fim_loopEscolhe
@@ -768,6 +807,206 @@ colisaoDino:
 		
 ;*******************************************************************************************************************************************
 
+
+;*******************************************************************************************************************************************
+; Checa se apertou espaço para pular ou em que ciclo o dino está para atualizar
+; Argumento r0 tem a posicao do dinossauro
+; Argumento r1 tem o ciclo atual de pulo do dino
+checaPulo:
+	
+	;push r0  ;posição do dino que será modificada, ou seja, não empilha
+	;push r5  ;ciclo atual (entre 0 e 3) que será modificado, ou não, ou seja, não empilha
+	push r2	 ;aux para pulo	
+	push r3  ;char espaço de referencia
+	push r4  ;aux para switch
+	;push r6  ;letra digitada
+	
+	loadn r4, #0
+	
+	loadn r2, #120
+	
+	loadn r3, #32
+	
+	;Confere se apertou espaço
+	call digLetra
+		
+	;checa fase atual e pulo:
+	;switch(r5) PEGANDO COMO BASE A FUNÇÃO NO CODIGO DA FORCA
+	cmp r5, r4	; Se case == 0
+	jeq Compara_Case0
+	
+	inc r4
+	cmp r5, r4 ; Se case == 1
+	jeq Compara_Case1
+	
+	inc r4
+	cmp r5, r4 ; Se case == 2
+	jeq Compara_Case2
+	
+	inc r4
+	cmp r5, r4 ; Se case == 3
+	jeq Compara_Case3
+	
+	inc r4
+	cmp r5, r4 ; Se case == 4
+	jeq Compara_Case4
+	
+	inc r4
+	cmp r5, r4 ; Se case == 5
+	jeq Compara_Case5
+	
+	inc r4
+	cmp r5, r4 ; Se case == 6
+	jeq Compara_Case6
+	
+	inc r4
+	cmp r5, r4 ; Se case == 7
+	jeq Compara_Case7
+	
+	
+	jmp Compara_FimSwitch	; Break do Switch
+	
+	Compara_Case0:
+		
+		;Confere se apertou espaço
+		call digLetra
+		
+		cmp r6, r3
+		jne Compara_FimSwitch ;Se Não apertou não faz nada
+		
+		loadn r6, #255	;reseta r6
+		
+		;Se apertou, vai pro próximo ciclo e atualiza a posição do dino
+		inc r5
+		
+		call apagaDino
+		sub r0, r0, r2
+		call imprimeDino
+		
+		jmp Compara_FimSwitch	; Break do Switch
+	
+	Compara_Case1:
+	
+		;vai pro próximo ciclo e atualiza a posição do dino
+
+		inc r5
+		
+		call apagaDino
+		sub r0, r0, r2
+		call imprimeDino
+		
+		jmp Compara_FimSwitch	; Break do Switch
+		
+	Compara_Case2:
+		
+		;vai pro próximo ciclo e atualiza a posição do dino
+
+		inc r5
+		
+		call apagaDino
+		sub r0, r0, r2
+		call imprimeDino
+		
+		jmp Compara_FimSwitch	; Break do Switch
+		
+	Compara_Case3:
+		
+		;vai pro próximo ciclo e atualiza a posição do dino
+
+		inc r5
+		
+		call apagaDino
+		sub r0, r0, r2
+		call imprimeDino
+		
+		jmp Compara_FimSwitch	; Break do Switch	
+	
+	Compara_Case4:
+		
+		;vai pro próximo ciclo e atualiza a posição do dino
+
+		inc r5
+		
+		call apagaDino
+		add r0, r0, r2
+		call imprimeDino
+		
+		jmp Compara_FimSwitch	; Break do Switch
+		
+	Compara_Case5:
+		
+		;vai pro próximo ciclo e atualiza a posição do dino
+
+		inc r5
+		
+		call apagaDino
+		add r0, r0, r2
+		call imprimeDino
+		
+		jmp Compara_FimSwitch	; Break do Switch
+		
+	Compara_Case6:
+		
+		;vai pro próximo ciclo e atualiza a posição do dino
+
+		inc r5
+		
+		call apagaDino
+		add r0, r0, r2
+		call imprimeDino
+		
+		jmp Compara_FimSwitch	; Break do Switch
+					
+		
+	Compara_Case7:
+		
+		;vai pro próximo ciclo e atualiza a posição do dino
+
+		loadn r5, #0
+		
+		call apagaDino
+		add r0, r0, r2
+		call imprimeDino
+		
+		jmp Compara_FimSwitch	; Break do Switch
+	
+	Compara_FimSwitch:
+	
+	;Confere se apertou espaço
+	call digLetra
+	
+	pop r4
+	pop r3
+	pop r2	
+	
+	rts
+	
+;*******************************************************************************************************************************************
+
+
+;*******************************************************************************************************************************************
+digLetra:	; Tenta ler uma tecla digitada e retorna no r6 a letra ou 255 se não há nada digitado; (se r6 já tem a tecla espeço digitada não precisa ler)
+	push r0
+	push r1
+	push r2
+	
+	loadn r1, #255	; Se nao digitar nada vem 255
+	loadn r2, #32
+	
+   	cmp r6, r2
+   	jeq fimDigLetra
+   	
+   	inchar r0		; Le o teclado, se nada for digitado = 255
+	mov r6, r0		; Salva a tecla no r2 e retorna
+
+	fimDigLetra:
+	
+	pop r2
+	pop r1
+	pop r0
+	
+	rts
+;*******************************************************************************************************************************************
 
 
 ;*******************************************************************************************************************************************
