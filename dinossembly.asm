@@ -7,28 +7,28 @@ jmp main
 ;SUGESTÃO: FAZER 2 RANDS: 1 PARA CADA CACTO
 rand : 	var #23
 		static rand + #0, #0
-		static rand + #1, #0
-		static rand + #2, #0
-		static rand + #3, #0
+		static rand + #1, #1
+		static rand + #2, #1
+		static rand + #3, #1
 		static rand + #4, #0
-		static rand + #5, #0
+		static rand + #5, #1
 		static rand + #6, #0
 		static rand + #7, #0
-		static rand + #8, #0
+		static rand + #8, #1
 		static rand + #9, #0
-		static rand + #10, #0
+		static rand + #10, #1
 		static rand + #11, #0
-		static rand + #12, #0
+		static rand + #12, #1
 		static rand + #13, #0
-		static rand + #14, #0
+		static rand + #14, #1
 		static rand + #15, #0
 		static rand + #16, #0
-		static rand + #17, #0
-		static rand + #18, #0
-		static rand + #19, #0
+		static rand + #17, #1
+		static rand + #18, #1
+		static rand + #19, #1
 		static rand + #20, #0
 		static rand + #21, #0
-		static rand + #22, #0
+		static rand + #22, #1
 
 
 
@@ -428,15 +428,13 @@ imprimeCacto1:
 	loadn r2, #'@'
 	outchar r2, r0
 	
-	
 	inc r0
 	loadn r2, #'$'
 	outchar r2, r0
 	
 	inc r0
-	loadn r2, #'$'
+	loadn r2, #'.'
 	outchar r2, r0
-	
 	
 	loadn r1, #38
 	add r0, r0, r1
@@ -448,34 +446,9 @@ imprimeCacto1:
 	outchar r2, r0
 	
 	inc r0
-	loadn r2, #'$'
-	outchar r2, r0
-	
-	inc r0
-	loadn r2, #'.'
-	outchar r2, r0
-	
-	loadn r1, #38
-	add r0, r0, r1
-	loadn r2, #'$'
-	outchar r2, r0
-	
-	inc r0
-	loadn r2, #'$'
-	outchar r2, r0
-	
-	inc r0
 	loadn r2, #'<'
 	outchar r2, r0
 	
-	loadn r1, #38
-	add r0, r0, r1
-	loadn r2, #'$'
-	outchar r2, r0
-	
-	inc r0
-	loadn r2, #'$'
-	outchar r2, r0
 	
 	pop r2
 	pop r1
@@ -519,26 +492,6 @@ apagaCacto1:
 	inc r0
 	outchar r2, r0
 	
-	inc r0
-	outchar r2, r0
-	
-	loadn r1, #38
-	add r0, r0, r1
-	outchar r2, r0
-	
-	inc r0
-	outchar r2, r0
-	
-	inc r0
-	outchar r2, r0
-	
-	loadn r1, #38
-	add r0, r0, r1
-	outchar r2, r0
-	
-	inc r0
-	outchar r2, r0
-	
 	pop r2
 	pop r1
 	pop r0
@@ -577,7 +530,7 @@ loopCacto0:
 		dec r1
 		
 		;cmp r1, r0 ;CONTATO
-		call confereContatoCacto0 ;retorna 1 ou 0 no r7
+		call confereContatoCacto ;retorna 1 ou 0 no r7
 		cmp r7, r3 ;compara o retorno com 1
 		jeq fim_loopIC0
 		
@@ -587,7 +540,7 @@ loopCacto0:
 		; ciclo do pulo está no r5
 		call checaPulo ;checa se apertou espaço para pular ou em que ciclo o dino está para atualizar
 		
-		call confereContatoCacto0 ;retorna 1 ou 0 no r7
+		call confereContatoCacto ;retorna 1 ou 0 no r7
 		cmp r7, r3 ;compara o retorno com 1
 		jeq fim_loopIC0
 		
@@ -632,8 +585,8 @@ loopCacto1:
 	
 	loadn r7, #0
 	
-	loadn r1, #678; carrega pos_ini do cacto + 1
-	loadn r2, #641
+	loadn r1, #759; carrega pos_ini do cacto + 1
+	loadn r2, #721
 	
 	;Confere se apertou espaço
 	call digLetra
@@ -649,7 +602,7 @@ loopCacto1:
 		dec r1
 		
 		;cmp r1, r0 ;CONTATO
-		call confereContatoCacto1 ;retorna 1 ou 0 no r7
+		call confereContatoCacto ;retorna 1 ou 0 no r7
 		cmp r7, r3 ;compara o retorno com 1
 		jeq fim_loopIC1
 		
@@ -659,7 +612,7 @@ loopCacto1:
 		; ciclo do pulo está no r5
 		call checaPulo ;checa se apertou espaço para pular ou em que ciclo o dino está para atualizar
 		
-		call confereContatoCacto1 ;retorna 1 ou 0 no r7
+		call confereContatoCacto ;retorna 1 ou 0 no r7
 		cmp r7, r3 ;compara o retorno com 1
 		jeq fim_loopIC1
 		
@@ -1013,7 +966,7 @@ digLetra:	; Tenta ler uma tecla digitada e retorna no r6 a letra ou 255 se não 
 ; Argumento r0 tem a posicao central do dinossauro
 ; Argumento r1 tem a posição central do cacto
 ; Retorna 1 ou 0 no r7 indicando se houve ou não o contato
-confereContatoCacto0:
+confereContatoCacto:
 	
 	push r0
 	push r1
@@ -1026,30 +979,31 @@ confereContatoCacto0:
 	sub r1, r1, r2
 	call colisaoDino
 	cmp r7, r3
-	jeq fim_confereContato0
+	jeq fim_confereContato
 	
 	inc r1
 	call colisaoDino
 	cmp r7, r3
-	jeq fim_confereContato0
-	
+	jeq fim_confereContato
+
 	inc r1
 	call colisaoDino
 	cmp r7, r3
-	jeq fim_confereContato0
+	jeq fim_confereContato
 	
 	loadn r2, #38
 	add r1, r1, r2
 	call colisaoDino
 	cmp r7, r3
-	jeq fim_confereContato0	
+	jeq fim_confereContato
 		
-	fim_confereContato0:	
-		pop r3
-		pop r2	
-		pop r1
-		pop r0
-		rts
+	fim_confereContato:	
+	
+	pop r3
+	pop r2	
+	pop r1
+	pop r0
+	rts
 	
 ;*******************************************************************************************************************************************
 
