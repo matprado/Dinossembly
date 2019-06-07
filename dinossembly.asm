@@ -96,60 +96,73 @@ imprimeDino:
 	
 	loadn r2, #'$'
 	outchar r2, r0
-	
+	nop
+	nop
 	inc r0
 	loadn r2, #'^'
 	outchar r2, r0
-	
+	nop
+	nop
 	loadn r1, #40
 	sub r0, r0, r1
 	loadn r2, #'*'
 	outchar r2, r0
-	
+	nop
+	nop
 	inc r0
 	loadn r2, #'+'
 	outchar r2, r0
-	
+	nop
+	nop
 	loadn r1, #41
 	sub r0, r0, r1
 	loadn r2, #'('
 	outchar r2, r0
-	
+	nop
+	nop
 	inc r0
 	loadn r2, #')'
 	outchar r2, r0
-	
+	nop
+	nop
 	loadn r1, #76
 	add r0, r0, r1
 	loadn r2, #'"'
 	outchar r2, r0
-	
+	nop
+	nop
 	inc r0
 	loadn r2, #'%'
 	outchar r2, r0
-	
+	nop
+	nop
 	loadn r1, #39
 	add r0, r0, r1
 	loadn r2, #'#'
 	outchar r2, r0
-	
+	nop
+	nop
 	inc r0
 	loadn r2, #'&'
 	outchar r2, r0
-	
+	nop
+	nop
 	inc r0
 	loadn r2, #']'
 	outchar r2, r0
-	
+	nop
+	nop
 	inc r0
 	loadn r2, #'['
 	outchar r2, r0
-	
+	nop
+	nop
 	loadn r1, #38
 	add r0, r0, r1
 	loadn r2, #'!'
 	outchar r2, r0
-	
+	nop
+	nop
 	inc r0
 	outchar r2, r0
 	
@@ -172,47 +185,75 @@ apagaDino:
 	
 	outchar r2, r0
 	
+	nop
+	nop
+	
 	inc r0
 	outchar r2, r0
+		
+	nop
+	nop
 	
 	loadn r1, #40
 	sub r0, r0, r1
 	outchar r2, r0
 	
+	nop
+	nop
 	inc r0
 	outchar r2, r0
 	
+	nop
+	nop
 	loadn r1, #41
 	sub r0, r0, r1
 	outchar r2, r0
 	
+	nop
+	nop
 	inc r0
 	outchar r2, r0
 	
+	nop
+	nop
 	loadn r1, #76
 	add r0, r0, r1
 	outchar r2, r0
 	
+	nop
+	nop
 	inc r0
 	outchar r2, r0
 	
+	nop
+	nop
 	loadn r1, #39
 	add r0, r0, r1
 	outchar r2, r0
 	
+	nop
+	nop
 	inc r0
 	outchar r2, r0
 	
+	nop
+	nop
 	inc r0
 	outchar r2, r0
 	
+	nop
+	nop
 	inc r0
 	outchar r2, r0
 	
+	nop
+	nop
 	loadn r1, #38
 	add r0, r0, r1
 	outchar r2, r0
 	
+	nop
+	nop
 	inc r0
 	outchar r2, r0
 	
@@ -402,24 +443,30 @@ apagaCacto0:
 	loadn r1, #41
 	sub r0, r0, r1
 	outchar r2, r0
-	
-	
-	inc r0
-	outchar r2, r0
+	nop
+	nop
 	
 	inc r0
 	outchar r2, r0
-	
+	nop
+	nop
+	inc r0
+	outchar r2, r0
+	nop
+	nop
 	loadn r1, #38
 	add r0, r0, r1
 	outchar r2, r0
-	
+	nop
+	nop
 	inc r0
 	outchar r2, r0
-	
+	nop
+	nop
 	inc r0
 	outchar r2, r0
-	
+	nop
+	nop
 	loadn r1, #39
 	add r0, r0, r1
 	outchar r2, r0
@@ -497,20 +544,25 @@ apagaCacto1:
 	loadn r1, #41
 	sub r0, r0, r1
 	outchar r2, r0
-	
+	nop
+	nop
 	inc r0
 	outchar r2, r0
-	
+	nop
+	nop
 	inc r0
 	outchar r2, r0
-	
+	nop
+	nop
 	loadn r1, #38
 	add r0, r0, r1
 	outchar r2, r0
-	
+	nop
+	nop
 	inc r0
 	outchar r2, r0
-	
+	nop
+	nop
 	inc r0
 	outchar r2, r0
 	
@@ -584,7 +636,7 @@ loopCacto0:
 		pop r0
 		
 		;Confere se apertou espaço
-		call digLetra
+		;call digLetra
 	
 	
 		pop r3
@@ -657,7 +709,7 @@ loopCacto1:
 		pop r0
 		
 		;Confere se apertou espaço
-		call digLetra
+		;call digLetra
 	
 		
 		pop r3
@@ -688,7 +740,7 @@ invocaCactos:
 	loopRand: ;SORTEIO 1 DOS CACTOS
 		
 		;Confere se apertou espaço
-		call digLetra
+		;call digLetra
 		
 		loadn r2, #rand ; declara ponteiro para tabela rand na memoria!
 		loadn r4, #22
