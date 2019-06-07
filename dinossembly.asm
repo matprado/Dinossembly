@@ -67,6 +67,12 @@ lerEspaco:
 	loadn r2, #0                ;cor branca
 	call ImprimeTela
 	
+	loadn r1, #978
+	loadn r0, #32 ;tecla espaço
+	outchar r7, r1
+	
+	jmp lerEspaco
+	
 	halt
 	
 
@@ -226,7 +232,7 @@ delay:
 	;loadn r0, #64000
 	
 	loopi:
-		loadn r1, #1000	
+		loadn r1, #500	
 		loopj:
 			dec r1
 			jnz loopj
@@ -675,6 +681,10 @@ invocaCactos:
 	loadn r5, #0  ;r5 tem o ciclo de pulo do dino que começa com 0
 	loadn r1, #1
 	
+	
+	loadn r7, #'0' ;usando o r7 pra contar pontos também
+	dec r7
+	
 	loopRand: ;SORTEIO 1 DOS CACTOS
 		
 		;Confere se apertou espaço
@@ -684,7 +694,15 @@ invocaCactos:
 		loadn r4, #22
 		
 		loopEscolhe:
-		
+			
+			inc r7
+			
+			;imprimir r7:
+			push r0
+			loadn r0, #978
+			outchar r7, r0
+			pop r0
+			
 			;Confere se apertou espaço
 			call digLetra
 		
@@ -696,23 +714,27 @@ invocaCactos:
 			jeq opcao1
 			
 			opcao0:
+				push r7
 				call loopCacto0 ;retorna em r7 o contato 
 				cmp r7, r1
 				jeq fim_loopRand
 				jmp fim_loopEscolhe
 				
 			opcao1:
+				push r7
 				call loopCacto1 ;retorna em r7 o contato
 				cmp r7, r1
 				jeq fim_loopRand
 				
-			fim_loopEscolhe:	
+			fim_loopEscolhe:
+				pop r7	
 				dec r4
 				jz loopRand
 				jnz loopEscolhe
 		
 		fim_loopRand:		
 	
+	pop r7
 	pop r4		
 	pop r3
 	pop r2	
@@ -1136,7 +1158,7 @@ tela1Linha18 : string "                                        "
 tela1Linha19 : string "________________________________________"
 tela1Linha20 : string "                                        "
 tela1Linha21 : string "                                        "
-tela1Linha22 : string "                                        "
+tela1Linha22 : string "      APERTE ESPACO PARA RECOMECAR      "
 tela1Linha23 : string "                                        "
 tela1Linha24 : string "                                        "
 tela1Linha25 : string "                                        "
