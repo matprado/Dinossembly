@@ -30,16 +30,32 @@ rand : 	var #23
 		static rand + #21, #0
 		static rand + #22, #1
 
-
+;r7 -> contato
+;r6 -> tecla espeço pra pular
+;r5 -> ciclo de pulo
+;r4 -> contador de pontos
 
 main:
 	
+	inchar r0 ;inchar dummie pra limpar o buffer
+	
+	call ApagaTela
+	loadn r1, #tela2Linha0		; Imprime a tela de menu
+	loadn r2, #0                ;cor branca
+	call ImprimeTela
+
+loadn r0, #32 ;tecla espaço
+lerEspaco:	
+	;espera apertar a tecla de espaço...
+	inchar r1
+   	cmp r0, r1
+   	jne lerEspaco
+   	
+	;começa o jogo:
 	call ApagaTela
 	loadn r1, #tela0Linha0		; Imprime a tela inicial
 	loadn r2, #0                ;cor branca
 	call ImprimeTela
-
-	
 	
 	loadn r0, #646
 	call imprimeDino
@@ -47,7 +63,7 @@ main:
 	call apagaDino
 	
 	call ApagaTela
-	loadn r1, #tela1Linha0		; Imprime a tela inicial
+	loadn r1, #tela1Linha0		; Imprime a tela de game-over
 	loadn r2, #0                ;cor branca
 	call ImprimeTela
 	
@@ -210,7 +226,7 @@ delay:
 	;loadn r0, #64000
 	
 	loopi:
-		loadn r1, #10000	
+		loadn r1, #1000	
 		loopj:
 			dec r1
 			jnz loopj
@@ -1128,3 +1144,39 @@ tela1Linha26 : string "                                        "
 tela1Linha27 : string "                                        "
 tela1Linha28 : string "                                        "
 tela1Linha29 : string "                                        "
+
+
+;---------------------------------------------------------------
+; Tela de menu:
+;---------------------------------------------------------------
+
+tela2Linha0  : string "                                        "
+tela2Linha1  : string "                                        "
+tela2Linha2  : string "                                        "
+tela2Linha3  : string "                                        "
+tela2Linha4  : string "         D I N O S S E M B L Y          "
+tela2Linha5  : string "                                        "
+tela2Linha6  : string "                                        "
+tela2Linha7  : string "                                        "
+tela2Linha8  : string "                                        "
+tela2Linha9  : string "       APERTE ESPACO PARA COMECAR       "                   
+tela2Linha10 : string "                                        "               
+tela2Linha11 : string "                                        "               
+tela2Linha12 : string "                                        "            
+tela2Linha13 : string "                                        "                   
+tela2Linha14 : string "                                        "                  
+tela2Linha15 : string "                                        "
+tela2Linha16 : string "                                        "
+tela2Linha17 : string "                                        "
+tela2Linha18 : string "                                        "
+tela2Linha19 : string "________________________________________"
+tela2Linha20 : string "                                        "
+tela2Linha21 : string "                                        "
+tela2Linha22 : string "                                        "
+tela2Linha23 : string "                                        "
+tela2Linha24 : string "                                        "
+tela2Linha25 : string "                                        "
+tela2Linha26 : string "                                        "
+tela2Linha27 : string "                                        "
+tela2Linha28 : string "                                        "
+tela2Linha29 : string "                                        "
