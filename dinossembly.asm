@@ -591,7 +591,7 @@ loopCacto0:
 	loadn r3, #1
 	
 	;Confere se apertou espaço
-	call digLetra
+	;call digLetra
 	
 	
 	loopIC0:
@@ -609,7 +609,7 @@ loopCacto0:
 		jeq fim_loopIC0
 		
 		;Confere se apertou espaço
-		call digLetra
+		;call digLetra
 		
 		; ciclo do pulo está no r5
 		call checaPulo ;checa se apertou espaço para pular ou em que ciclo o dino está para atualizar
@@ -663,7 +663,7 @@ loopCacto1:
 	loadn r2, #721
 	
 	;Confere se apertou espaço
-	call digLetra
+	;call digLetra
 	
 	
 	loopIC1:
@@ -681,7 +681,7 @@ loopCacto1:
 		jeq fim_loopIC1
 		
 		;Confere se apertou espaço
-		call digLetra
+		;call digLetra
 		
 		; ciclo do pulo está no r5
 		call checaPulo ;checa se apertou espaço para pular ou em que ciclo o dino está para atualizar
@@ -756,7 +756,7 @@ invocaCactos:
 			pop r0
 			
 			;Confere se apertou espaço
-			call digLetra
+			;call digLetra
 		
 			loadi r3, r2 ; busca nr. randomico da memoria
 			inc r2
@@ -870,9 +870,6 @@ checaPulo:
 	
 	loadn r3, #32
 	
-	;Confere se apertou espaço
-	call digLetra
-		
 	;checa fase atual e pulo:
 	;switch(r5) PEGANDO COMO BASE A FUNÇÃO NO CODIGO DA FORCA
 	cmp r5, r4	; Se case == 0
@@ -1015,8 +1012,7 @@ checaPulo:
 	
 	Compara_FimSwitch:
 	
-	;Confere se apertou espaço
-	call digLetra
+	loadn r6, #255	;reseta r6
 	
 	pop r4
 	pop r3
@@ -1040,7 +1036,7 @@ digLetra:	; Tenta ler uma tecla digitada e retorna no r6 a letra ou 255 se não 
    	jeq fimDigLetra
    	
    	inchar r0		; Le o teclado, se nada for digitado = 255
-	mov r6, r0		; Salva a tecla no r2 e retorna
+	mov r6, r0		; Salva a tecla no r6 e retorna
 
 	fimDigLetra:
 	
